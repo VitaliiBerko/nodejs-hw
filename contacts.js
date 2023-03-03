@@ -10,9 +10,9 @@ const listContacts = async () => {
   try {
     const data = await fs.readFile(contactsPath);
 
-    console.log(data);
+    
     const contacts = JSON.parse(data.toString());
-    console.log(contacts);
+    console.table(contacts);
   } catch (error) {
     console.log("Something went wrong...");
     console.log(error.message);
@@ -27,7 +27,7 @@ const getContactById = async (contactId) => {
 
     contacts = contacts.find(({ id }) => id === contactId);
 
-    console.log(contacts);
+    console.table(contacts);
   } catch (error) {
     console.log("Something went wrong...");
     console.log(error.message);
@@ -42,7 +42,7 @@ const removeContact = async (contactId) => {
 
     contacts = contacts.filter(({ id }) => id !== contactId);
     await fs.writeFile("result.json", JSON.stringify(contacts));
-    console.log(contacts);
+    console.table(contacts);
   } catch (error) {
     console.log("Something went wrong...");
     console.log(error.message);
@@ -63,7 +63,7 @@ const addContact = async (name, email, phone) => {
     const resultData = await fs.readFile(resultPath);
     const result = JSON.parse(resultData.toString());
 
-    console.log(result);
+    console.table(result);
   } catch (error) {
     console.log("Something went wrong...");
     console.log(error.message);

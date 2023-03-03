@@ -1,16 +1,47 @@
-// const Calc = require('calc-js').Calc;
 
-// // console.log(process.argv);
+const {
+  listContacts,
+  getContactById,
+  removeContact,
+  addContact,
+} = require("./contacts");
 
-// const [, , a, b] = process.argv
-// console.log(new Calc(parseInt(a)).sum(parseInt(b)).finish());
+const { Command } = require("commander");
+const program = new Command();
+program
+  .option("-a, --action <type>", "choose action")
+  .option("-i, --id <type>", "user id")
+  .option("-n, --name <type>", "user name")
+  .option("-e, --email <type>", "user email")
+  .option("-p, --phone <type>", "user phone");
 
-// console.log('hello');
+program.parse(process.argv);
 
-const contacts = require('./contacts')
-const {listContacts, getContactById, removeContact, addContact}= contacts;
+const argv = program.opts();
 
-// listContacts();
-// getContactById('2');
-// removeContact('1');
-addContact('Vova', 'bob@mail.com', '123')
+// console.log(program);
+
+function invokeAction({ action, id, name, email, phone }) {
+  switch (action) {
+    case "list":
+      listContacts();
+      break;
+
+    case "get":
+      getContactById(id);
+      break;
+
+    case "add":
+      addContact(name, email, phone);
+      break;
+
+    case "remove":
+      removeContact(id);
+      break;
+
+    default:
+      console.warn("\x1B[31m Unknown action type!");
+  }
+}
+
+invokeAction(argv);
